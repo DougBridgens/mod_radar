@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 #
 # perl viewRadar.pl
 #
@@ -38,7 +38,7 @@ if (tie(%db, 'DB_File', $db_file, O_RDONLY)) {
   for $pid (keys %db) {
     $tmp = $db{$pid};
     $tmp =~ s/\s+//g;
-    ($client_ip, $time_started, $post_read, $translate_name, $map_to_storage, $header_parser, $access_checker, $check_user_id, $auth_checker, $type_checker, $fixups, $log_transaction, $uri) = split(/\,/, $tmp);
+    my ($client_ip, $time_started, $post_read, $translate_name, $map_to_storage, $header_parser, $access_checker, $check_user_id, $auth_checker, $type_checker, $fixups, $log_transaction, $uri) = split(/\,/, $tmp);
 
       $requests++;
       $runfor = int($time_started / 1000000);
