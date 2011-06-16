@@ -77,8 +77,8 @@
 #define DATABASE "/tmp/radar.db"
 #define LOCKFILE "/tmp/radar.lock"
 #define DB_TYPE "DB"
-#define DB_STORE 0
-#define DB_REMOVE 1
+#define REQ_DATA_STORE 0
+#define REQ_DATA_REMOVE 1
 
 extern module AP_MODULE_DECLARE_DATA radar_module;
 static void checkpoint(int action, request_rec *r);
@@ -257,7 +257,7 @@ static int my_fixups(request_rec *r)
     req_stats *my_stats = ap_get_module_config(r->request_config, &radar_module);
     my_stats->dur_ms_fixups = apr_time_now() - r->request_time;
 
-    checkpoint(DB_STORE, r);
+    checkpoint(REQ_DATA_STORE, r);
   }
   return DECLINED;
 }
@@ -269,7 +269,7 @@ static int my_log_transaction(request_rec *r)
     req_stats *my_stats = ap_get_module_config(r->request_config, &radar_module);
     my_stats->dur_ms_log_transaction = apr_time_now() - r->request_time;
 
-    checkpoint(DB_REMOVE, r);
+    checkpoint(REQ_DATA_REMOVE, r);
   }
   return DECLINED;
 }
@@ -312,7 +312,7 @@ static void checkpoint(int action, request_rec *r)
   req_stats *my_stats = ap_get_module_config(r->request_config, &radar_module);
 
   /* don't try and remove data that's not there */
-  if (action == DB_REMOVE && my_stats->remove_from_database == 0) {
+  if (action == REQ_DATA_REMOVE && my_stats->remove_from_database == 0) {
     return;
   }
 
@@ -370,7 +370,7 @@ static void checkpoint(int action, request_rec *r)
     }
     else {
       /* success opening the database */
-      if (action == DB_STORE) {
+      if (action == REQ_DATA_STORE) {
         /* try writing our key=>value */
         rv = apr_dbm_store(dbm, key, val);
         if (rv != APR_SUCCESS) {
