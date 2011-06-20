@@ -3,7 +3,7 @@
   Quick Start - Unix
   ------------------
 
-  Compile and install the module on your test system (we're still in beta).
+  Compile and install the module on your test or dev system.
 
     $ apxs -a -i -c mod_radar.c
     $ /etc/init.d/httpd restart
