@@ -5,7 +5,8 @@ What is it ?
 
 mod_radar is an Apache 2 diagnostic and monitoring module.  It allows 
 adminstrators to see what http request an httpd process is currently 
-processing, giving a real-time view of the Apache server.
+processing, and how long each stage of the apache request cycle is
+taking.  Giving a real-time view of the Apache server.
 
 The Latest Version
 ------------------
